@@ -1,0 +1,211 @@
+/**
+ * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
+ * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
+ * @cliArgs --device "F28003x" --part "F28003x_100PZ" --package "100PZ" --context "system" --product "C2000WARE@5.05.00.00"
+ * @v2CliArgs --device "TMS320F280039C" --package "100PZ" --context "system" --product "C2000WARE@5.05.00.00"
+ * @versions {"tool":"1.23.2+4156"}
+ */
+
+/**
+ * Import the modules used in this configuration.
+ */
+const adc            = scripting.addModule("/driverlib/adc.js", {}, false);
+const adc1           = adc.addInstance();
+const analog         = scripting.addModule("/driverlib/analog.js", {}, false);
+const analog1        = analog.addInstance();
+const can            = scripting.addModule("/driverlib/can.js", {}, false);
+const can1           = can.addInstance();
+const cputimer       = scripting.addModule("/driverlib/cputimer.js", {}, false);
+const cputimer1      = cputimer.addInstance();
+const cputimer2      = cputimer.addInstance();
+const device_support = scripting.addModule("/driverlib/device_support.js");
+const ecap           = scripting.addModule("/driverlib/ecap.js", {}, false);
+const ecap1          = ecap.addInstance();
+const epwm           = scripting.addModule("/driverlib/epwm.js", {}, false);
+const epwm1          = epwm.addInstance();
+const gpio           = scripting.addModule("/driverlib/gpio.js", {}, false);
+const gpio1          = gpio.addInstance();
+const gpio2          = gpio.addInstance();
+const gpio3          = gpio.addInstance();
+const gpio4          = gpio.addInstance();
+const sci            = scripting.addModule("/driverlib/sci.js", {}, false);
+const sci1           = sci.addInstance();
+const sysctl         = scripting.addModule("/driverlib/sysctl.js");
+const CMD            = scripting.addModule("/utilities/cmd_tool/cmd_syscfg/source/CMD");
+const CMD1           = CMD.addInstance();
+const CMD2           = CMD.addInstance();
+
+/**
+ * Write custom configuration values to the imported modules.
+ */
+adc1.$name              = "myADC0";
+adc1.adcClockPrescaler  = "ADC_CLK_DIV_2_0";
+adc1.soc0SampleWindow   = 9;
+adc1.enabledInts        = ["ADC_INT_NUMBER1"];
+adc1.enableInterrupt1   = true;
+adc1.enabledSOCs        = ["ADC_SOC_NUMBER0","ADC_SOC_NUMBER1"];
+adc1.soc1Channel        = "ADC_CH_ADCIN2";
+adc1.soc1SampleWindow   = 9;
+adc1.registerInterrupts = ["1"];
+
+analog1.$name            = "myANALOGPinMux0";
+adc1.analog              = analog1;
+analog1.useCase          = "CUSTOM";
+analog1.useInterfacePins = ["A0/B15/C15/DACA_OUT","A2/B6/C9"];
+
+can1.$name                   = "myCAN0";
+can1.msgObjsUsed             = [1,2,3,11,12];
+can1.registerInterrupts      = true;
+can1.interruptFlags          = ["CAN_INT_IE0"];
+can1.enableInterrupt         = true;
+can1.interruptLine           = ["CAN_GLOBAL_INT_CANINT0"];
+can1.can.$assign             = "CANA";
+can1.can.can_rxPin.$assign   = "GPIO5";
+can1.can.can_txPin.$assign   = "GPIO4";
+can1.msgObj1.$name           = "msgObj0";
+can1.msgObj1.msgType         = "CAN_MSG_OBJ_TYPE_TX";
+can1.msgObj1.msgLen          = 8;
+can1.msgObj1.msgID           = 256;
+can1.msgObj1.flags           = ["CAN_MSG_OBJ_TX_INT_ENABLE"];
+can1.msgObj2.$name           = "msgObj1";
+can1.msgObj2.msgID           = 272;
+can1.msgObj2.msgType         = "CAN_MSG_OBJ_TYPE_TX";
+can1.msgObj2.msgLen          = 8;
+can1.msgObj2.flags           = ["CAN_MSG_OBJ_TX_INT_ENABLE"];
+can1.msgObj3.$name           = "msgObj2";
+can1.msgObj3.msgID           = 288;
+can1.msgObj3.msgType         = "CAN_MSG_OBJ_TYPE_TX";
+can1.msgObj3.msgLen          = 8;
+can1.msgObj3.flags           = ["CAN_MSG_OBJ_TX_INT_ENABLE"];
+can1.msgObj11.$name          = "msgObj3";
+can1.msgObj11.msgID          = 1792;
+can1.msgObj11.flags          = ["CAN_MSG_OBJ_RX_INT_ENABLE"];
+can1.msgObj12.$name          = "msgObj4";
+can1.msgObj12.msgID          = 1808;
+can1.msgObj12.flags          = ["CAN_MSG_OBJ_RX_INT_ENABLE"];
+can1.can0Int.enableInterrupt = true;
+
+const divider4       = system.clockTree["PLL_ODIV"];
+divider4.divideValue = 2;
+
+const mux3       = system.clockTree["OSCCLKSRCSEL"];
+mux3.inputSelect = "X1_XTAL";
+
+cputimer1.$name          = "myCPUTIMER0";
+cputimer1.startTimer     = true;
+cputimer1.timerPrescaler = 3;
+cputimer1.emulationMode  = "CPUTIMER_EMULATIONMODE_RUNFREE";
+cputimer1.timerPeriod    = 600000;
+
+cputimer2.$name                    = "myCPUTIMER1";
+cputimer2.cputimerBase             = "CPUTIMER1_BASE";
+cputimer2.startTimer               = true;
+cputimer2.timerPrescaler           = 3;
+cputimer2.enableInterrupt          = true;
+cputimer2.registerInterrupts       = true;
+cputimer2.timerPeriod              = 30000;
+cputimer2.emulationMode            = "CPUTIMER_EMULATIONMODE_RUNFREE";
+cputimer2.timerInt.enableInterrupt = true;
+
+ecap1.$name                   = "myECAP0";
+ecap1.eventStop               = "ECAP_EVENT_2";
+ecap1.eventTwoPolarity        = "ECAP_EVNT_FALLING_EDGE";
+ecap1.enableInterrupt         = true;
+ecap1.registerInterrupts      = true;
+ecap1.interruptSourceCapture  = ["ECAP_ISR_SOURCE_CAPTURE_EVENT_2"];
+ecap1.counterResetOnEvent     = ["ECAP_EVENT_2"];
+ecap1.enableLoadCounter       = true;
+ecap1.ecapInput               = "ECAP_INPUT_GPIO8";
+ecap1.ecapInt.enableInterrupt = true;
+
+epwm1.$name                                                      = "myEPWM0";
+epwm1.epwmTimebase_emulationMode                                 = "EPWM_EMULATION_FREE_RUN";
+epwm1.epwmTimebase_clockDiv                                      = "EPWM_CLOCK_DIVIDER_8";
+epwm1.epwmTimebase_hsClockDiv                                    = "EPWM_HSCLOCK_DIVIDER_1";
+epwm1.epwmTimebase_periodLoadMode                                = "EPWM_PERIOD_DIRECT_LOAD";
+epwm1.epwmTimebase_counterMode                                   = "EPWM_COUNTER_MODE_UP_DOWN";
+epwm1.epwmTimebase_syncInPulseSource                             = "EPWM_SYNC_IN_PULSE_SRC_DISABLE";
+epwm1.epwmCounterCompare_cmpA                                    = 750;
+epwm1.epwmTimebase_period                                        = 3000;
+epwm1.epwmCounterCompare_enableShadowLoadModeCMPA                = false;
+epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_UP_CMPA   = "EPWM_AQ_OUTPUT_HIGH";
+epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_DOWN_CMPA = "EPWM_AQ_OUTPUT_LOW";
+
+gpio1.direction       = "GPIO_DIR_MODE_OUT";
+gpio1.$name           = "myLED05";
+gpio1.gpioPin.$assign = "GPIO22";
+
+gpio2.$name           = "myLED04";
+gpio2.direction       = "GPIO_DIR_MODE_OUT";
+gpio2.gpioPin.$assign = "B5, GPIO20";
+
+gpio3.$name           = "myGPIO_trig";
+gpio3.direction       = "GPIO_DIR_MODE_OUT";
+gpio3.gpioPin.$assign = "GPIO23";
+
+gpio4.$name           = "myGPIO_echo";
+gpio4.gpioPin.$assign = "GPIO8";
+
+sci1.$name                 = "mySCI0";
+sci1.baudRates             = 9600;
+sci1.useInterrupts         = false;
+sci1.useFifo               = false;
+sci1.sci.$assign           = "SCIA";
+sci1.sci.sci_rxPin.$assign = "GPIO28";
+sci1.sci.sci_txPin.$assign = "GPIO29";
+sci1.rxQual.$name          = "myGPIOQUAL0";
+sci1.rxQual.padConfig      = "STD";
+sci1.txQual.$name          = "myGPIOQUAL1";
+sci1.txQual.padConfig      = "STD";
+
+sysctl.enable_SYSCTL_PERIPH_CLK_TBCLKSYNC = true;
+
+CMD1.$name                    = "generic_ram_lnk";
+CMD1.sectionMemory_text       = ["RAMGS0","RAMLS4","RAMLS5","RAMLS6","RAMLS7"];
+CMD1.sectionMemory_ramfunc    = ["RAMM0"];
+CMD1.sectionMemory_cinit      = ["RAMM0"];
+CMD1.sectionMemory_stack      = ["RAMM1"];
+CMD1.sectionMemory_init_array = ["RAMM0"];
+CMD1.sectionMemory_bss        = ["RAMLS4"];
+CMD1.sectionMemory_const      = ["RAMLS4"];
+CMD1.sectionMemory_data       = ["RAMLS4"];
+CMD1.sectionMemory_switch     = ["RAMM0"];
+CMD1.sectionMemory_sysmem     = ["RAMLS4"];
+CMD1.sectionRun_ramfunc       = ["RAMLS4"];
+
+CMD2.$name                               = "generic_flash_lnk";
+CMD2.sectionAlignEnable_ramfunc          = true;
+CMD2.sectionAlignEnable_text             = true;
+CMD2.sectionAlignEnable_binit            = true;
+CMD2.sectionAlignEnable_cinit            = true;
+CMD2.sectionAlignEnable_switch           = true;
+CMD2.sectionAlignEnable_init_array       = true;
+CMD2.sectionAlignEnable_const            = true;
+CMD2.sectionAlignEnable_ovly             = true;
+CMD2.sectionMemory_codestart             = "0x080000";
+CMD2.sectionMemory_stack                 = ["RAMM1"];
+CMD2.sectionMemory_ramfunc               = ["FLASH_BANK0_SEC1"];
+CMD2.sectionMemory_binit                 = ["FLASH_BANK0_SEC1"];
+CMD2.sectionMemory_cinit                 = ["FLASH_BANK0_SEC1"];
+CMD2.sectionMemory_switch                = ["FLASH_BANK0_SEC1"];
+CMD2.sectionMemory_bss                   = ["RAMLS5"];
+CMD2.sectionMemory_data                  = ["RAMLS5"];
+CMD2.sectionMemory_sysmem                = ["RAMLS5"];
+CMD2.sectionRunFromDifferentAddr_ramfunc = true;
+CMD2.sectionBinit_ramfunc                = false;
+CMD2.sectionMemory_init_array            = ["FLASH_BANK0_SEC1"];
+CMD2.sectionMemory_const                 = ["FLASH_BANK0_SEC4"];
+CMD2.sectionMemory_ovly                  = ["FLASH_BANK0_SEC1"];
+CMD2.sectionMemory_text                  = ["FLASH_BANK0_SEC2","FLASH_BANK0_SEC3","FLASH_BANK0_SEC4","FLASH_BANK0_SEC5","FLASH_BANK0_SEC6","FLASH_BANK0_SEC7","FLASH_BANK0_SEC8"];
+
+/**
+ * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
+ * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
+ * re-solve from scratch.
+ */
+analog1.analog.$suggestSolution                           = "ANALOG";
+analog1.analog["a0/b15/c15/daca_outPin"].$suggestSolution = "A0/B15/C15/DACA_OUT";
+analog1.analog["a2/b6/c9Pin"].$suggestSolution            = "A2/B6/C9";
+epwm1.epwm.$suggestSolution                               = "EPWM1";
+epwm1.epwm.epwm_aPin.$suggestSolution                     = "GPIO0";
+epwm1.epwm.epwm_bPin.$suggestSolution                     = "GPIO1";
